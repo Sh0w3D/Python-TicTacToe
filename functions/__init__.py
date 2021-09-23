@@ -13,6 +13,7 @@ def MainGame(BoardMoves, Turns, Player1, Player2):
     TicTacBoad(BoardMoves)
     CurrentMoveCol = int(input("Do ktorej kolumny wstawic wartosc: "))
     CurrentMoveRow = int(input("Do ktorego wiersza wstawic wartosc: "))
+    #tutaj bedzie check i potem reszta w if else
     if(Turns % 2 == 0):
        Player = Player1
        TranslateAndCheckBoardPos(CurrentMoveRow, CurrentMoveCol, BoardMoves, Player)
