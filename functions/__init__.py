@@ -2,29 +2,47 @@ import os
 import sys
 
 
-   
+# Main game function
 def MainGame(BoardMoves, Turns, Player1, Player2):
-    
-    if(BoardMoves[8].isspace() != True):
+    # This if checks if all values in array are different from spaces
+    if(BoardMoves[0].isspace() == False and BoardMoves[1].isspace() == False and BoardMoves[2].isspace() == False
+    and BoardMoves[3].isspace() == False and  BoardMoves[4].isspace() == False and BoardMoves[5].isspace() == False
+    and BoardMoves[6].isspace() == False and BoardMoves[7].isspace() == False and BoardMoves[8].isspace() == False):
+        # If all values are different from spaces than display board
+        # and ask user for new gameor if he wants to exit the game
         TicTacBoad(BoardMoves)
         ResetOrExitGame(input("Gra skończona! Grasz of nowa (Y/N): "), BoardMoves, Turns)
-    #print(Turns)
-    #print(BoardMoves)
-    TicTacBoad(BoardMoves)
-    CurrentMoveCol = int(input("Do ktorej kolumny wstawic wartosc: "))
-    CurrentMoveRow = int(input("Do ktorego wiersza wstawic wartosc: "))
-    #tutaj bedzie check i potem reszta w if else
+    # if one or more values are spaces than continue game
+    # Check if the cords are taken
+    Test = False
+    while(Test == False):
+        # display board and ask user for cords to input symbol
+        TicTacBoad(BoardMoves)
+        try:
+            CurrentMoveRow = int(input("Do ktorego wiersza wstawic wartosc: "))
+            CurrentMoveCol = int(input("Do ktorej kolumny wstawic wartosc: "))
+        except(UnboundLocalError, ValueError, IndexError):
+            print("Spowodowałeś errora, zasługujesz na wyłączenie programu!")
+            sys.exit("To twoja kara. Bajooo!")
+        Test = CheckIfPosIsSpace(CurrentMoveRow, CurrentMoveCol, BoardMoves, Test)
+        if(Test == False):
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print("Podana pozycja jest zajęta, podaj nową!")
+        else:
+            break
     if(Turns % 2 == 0):
        Player = Player1
        TranslateAndCheckBoardPos(CurrentMoveRow, CurrentMoveCol, BoardMoves, Player)
+       print(BoardMoves)
     else:
        Player = Player2
        TranslateAndCheckBoardPos(CurrentMoveRow, CurrentMoveCol, BoardMoves, Player)
+       print(BoardMoves)
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
 
-
+# This function prints Board with array slots
 def TicTacBoad(BoardMoves):
     print("""
       1   2   3
@@ -37,34 +55,66 @@ def TicTacBoad(BoardMoves):
     BoardMoves[4], BoardMoves[5], BoardMoves[6], BoardMoves[7],
     BoardMoves[8]))
 
+# This function checks if board is full or someone won the game
+# if the board is full there is a tie
+def CheckWinOrTie(BoardMoves):
+    pass
 
-def TranslateAndCheckBoardPos(CurrentMoveCol, CurrentMoveRow, BoardMoves, Player):
-    if(CurrentMoveCol == 1 and CurrentMoveRow == 1):
+# This function checks if the position is already taken
+# If the function returns True if position is space
+# else the function returns False
+def CheckIfPosIsSpace(CurrentMoveRow, CurrentMoveCol, BoardMoves, Test):
+    if(CurrentMoveRow == 1 and CurrentMoveCol == 1):
+        Test = True if BoardMoves[0].isspace() else False
+    elif(CurrentMoveRow == 1 and CurrentMoveCol == 2):
+        Test = True if BoardMoves[1].isspace() else False
+    elif(CurrentMoveRow == 1 and CurrentMoveCol == 3):
+        Test = True if BoardMoves[2].isspace() else False
+    elif(CurrentMoveRow == 2 and CurrentMoveCol == 1):
+        Test = True if BoardMoves[3].isspace() else False
+    elif(CurrentMoveRow == 2 and CurrentMoveCol == 2):
+        Test = True if BoardMoves[4].isspace() else False
+    elif(CurrentMoveRow == 2 and CurrentMoveCol == 3):
+        Test = True if BoardMoves[5].isspace() else False
+    elif(CurrentMoveRow == 3 and CurrentMoveCol == 1):
+        Test = True if BoardMoves[6].isspace() else False
+    elif(CurrentMoveRow == 3 and CurrentMoveCol == 2):
+        Test = True if BoardMoves[7].isspace() else False
+    elif(CurrentMoveRow == 3 and CurrentMoveCol == 3):
+        Test = True if BoardMoves[8].isspace() else False
+    else:
+        print("\nWartość podana jest większa niż powinna być")
+        Test = False
+    
+    return Test
+
+# This function allows code to translate cords to Board position
+def TranslateAndCheckBoardPos(CurrentMoveRow, CurrentMoveCol, BoardMoves, Player):
+    if(CurrentMoveRow == 1 and CurrentMoveCol == 1):
         BoardMoves[0] = Player
-    elif(CurrentMoveCol == 1 and CurrentMoveRow == 2):
+    elif(CurrentMoveRow == 1 and CurrentMoveCol == 2):
         BoardMoves[1] = Player
-    elif(CurrentMoveCol == 1 and CurrentMoveRow == 3):
+    elif(CurrentMoveRow == 1 and CurrentMoveCol == 3):
         BoardMoves[2] = Player
-    elif(CurrentMoveCol == 2 and CurrentMoveRow == 1):
+    elif(CurrentMoveRow == 2 and CurrentMoveCol == 1):
         BoardMoves[3] = Player
-    elif(CurrentMoveCol == 2 and CurrentMoveRow == 2):
+    elif(CurrentMoveRow == 2 and CurrentMoveCol == 2):
         BoardMoves[4] = Player
-    elif(CurrentMoveCol == 2 and CurrentMoveRow == 3):
+    elif(CurrentMoveRow == 2 and CurrentMoveCol == 3):
         BoardMoves[5] = Player
-    elif(CurrentMoveCol == 3 and CurrentMoveRow == 1):
+    elif(CurrentMoveRow == 3 and CurrentMoveCol == 1):
         BoardMoves[6] = Player
-    elif(CurrentMoveCol == 3 and CurrentMoveRow == 2):
+    elif(CurrentMoveRow == 3 and CurrentMoveCol == 2):
         BoardMoves[7] = Player
-    elif(CurrentMoveCol == 3 and CurrentMoveRow == 3):
+    elif(CurrentMoveRow == 3 and CurrentMoveCol == 3):
         BoardMoves[8] = Player
     else:
-        #BoardMoves[0] = Player
-        #print(BoardMoves)
         print("\nThere is some kind of mistake in TranslateBoardPos")
     
     return BoardMoves
 
 
+# This function allows user to reset or exit game
 def ResetOrExitGame(AskNewGame, BoardMoves, Turns):
         if(AskNewGame == "Y"):
             Turns = 0
