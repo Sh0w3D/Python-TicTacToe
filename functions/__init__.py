@@ -9,7 +9,7 @@ def MainGame(BoardMoves, Turns, Player1, Player2):
     and BoardMoves[3].isspace() == False and  BoardMoves[4].isspace() == False and BoardMoves[5].isspace() == False
     and BoardMoves[6].isspace() == False and BoardMoves[7].isspace() == False and BoardMoves[8].isspace() == False):
         # If all values are different from spaces than display board
-        # and ask user for new gameor if he wants to exit the game
+        # and ask user for new game or if he wants to exit the game
         TicTacBoad(BoardMoves)
         ResetOrExitGame(input("Gra skończona! Grasz of nowa (Y/N): "), BoardMoves, Turns)
     # if one or more values are spaces than continue game
@@ -82,8 +82,14 @@ def CheckIfPosIsSpace(CurrentMoveRow, CurrentMoveCol, BoardMoves, Test):
         Test = True if BoardMoves[7].isspace() else False
     elif(CurrentMoveRow == 3 and CurrentMoveCol == 3):
         Test = True if BoardMoves[8].isspace() else False
+    elif(CurrentMoveRow > 3 or CurrentMoveCol > 3):
+        print("\nJedna lub obie wartości są większe niż powinne, podaj nowe!")
+        Test = False
+    elif(CurrentMoveRow < 1 or CurrentMoveCol < 1):
+        print("\nJedna lub obie wartości są mniejsze niż powinne, podaj nowe!")
+        Test = False
     else:
-        print("\nWartość podana jest większa niż powinna być")
+        print("\nWystąpił błąd w funkcji CheckIfPosIsSpace")
         Test = False
     
     return Test

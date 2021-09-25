@@ -15,8 +15,6 @@ except(UnboundLocalError, ValueError, IndexError):
     print("Spowodowałeś errora, zasługujesz na wyłączenie programu!")
     sys.exit("To twoja kara. Bajooo!")
 
-#fn.TicTacBoad(BoardMoves)
-#os.system('cls' if os.name == 'nt' else 'clear')
 print(f"Gracze to: {Player1} oraz {Player2}")
 
 while(True):
