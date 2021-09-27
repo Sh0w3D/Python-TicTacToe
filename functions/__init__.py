@@ -2,17 +2,19 @@ import os
 import sys
 
 
+def checkPlayerNames(Player1, Player2, warunek):
+    if(Player1 == Player2):
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print("Podane nazwy są te same, podaj nowe")
+        warunek = False
+    else:
+        warunek = True
+    
+    return warunek
+
+
 # Main game function
-def MainGame(BoardMoves, Turns, Player1, Player2):
-    # This if checks if all values in array are different from spaces
-    if(BoardMoves[0].isspace() == False and BoardMoves[1].isspace() == False and BoardMoves[2].isspace() == False
-    and BoardMoves[3].isspace() == False and  BoardMoves[4].isspace() == False and BoardMoves[5].isspace() == False
-    and BoardMoves[6].isspace() == False and BoardMoves[7].isspace() == False and BoardMoves[8].isspace() == False):
-        # If all values are different from spaces than display board
-        # and ask user for new game or if he wants to exit the game
-        TicTacBoad(BoardMoves)
-        ResetOrExitGame(input("Gra skończona! Grasz of nowa (Y/N): "), BoardMoves, Turns)
-    # if one or more values are spaces than continue game
+def MainGame(BoardMoves, Turns, Player1, Player2, Player):
     # Check if the cords are taken
     Test = False
     while(Test == False):
@@ -31,13 +33,15 @@ def MainGame(BoardMoves, Turns, Player1, Player2):
         else:
             break
     if(Turns % 2 == 0):
-       Player = Player1
-       TranslateAndCheckBoardPos(CurrentMoveRow, CurrentMoveCol, BoardMoves, Player)
-       print(BoardMoves)
+        Player = Player1
+        TranslateAndCheckBoardPos(CurrentMoveRow, CurrentMoveCol, BoardMoves, Player)
+        CheckWinOrTie(Turns, Player1, Player2, BoardMoves)
+        print(BoardMoves)
     else:
-       Player = Player2
-       TranslateAndCheckBoardPos(CurrentMoveRow, CurrentMoveCol, BoardMoves, Player)
-       print(BoardMoves)
+        Player = Player2
+        TranslateAndCheckBoardPos(CurrentMoveRow, CurrentMoveCol, BoardMoves, Player)
+        CheckWinOrTie(Turns, Player1, Player2, BoardMoves)
+        print(BoardMoves)
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
@@ -57,8 +61,42 @@ def TicTacBoad(BoardMoves):
 
 # This function checks if board is full or someone won the game
 # if the board is full there is a tie
-def CheckWinOrTie(BoardMoves):
-    pass
+def CheckWinOrTie(Turns, Player1, Player2, BoardMoves):
+    #check if expected cords are taken by Player2
+    if((BoardMoves[0] == Player1 and BoardMoves[1] == Player1 and BoardMoves[2] == Player1) or
+        (BoardMoves[3] == Player1 and BoardMoves[4] == Player1 and BoardMoves[5] == Player1) or
+        (BoardMoves[6] == Player1 and BoardMoves[7] == Player1 and BoardMoves[8] == Player1) or
+        (BoardMoves[0] == Player1 and BoardMoves[3] == Player1 and BoardMoves[6] == Player1) or
+        (BoardMoves[1] == Player1 and BoardMoves[4] == Player1 and BoardMoves[7] == Player1) or
+        (BoardMoves[2] == Player1 and BoardMoves[5] == Player1 and BoardMoves[8] == Player1) or
+        (BoardMoves[0] == Player1 and BoardMoves[4] == Player1 and BoardMoves[8] == Player1) or
+        (BoardMoves[2] == Player1 and BoardMoves[4] == Player1 and BoardMoves[6] == Player1)):
+        print(f"Wygrał gracz {Player1}!")
+        TicTacBoad(BoardMoves)
+        ResetOrExitGame(input("Gra skończona! Grasz of nowa (Y/N): "), BoardMoves, Turns)
+    #check if expected cords are taken by Player2
+    elif((BoardMoves[0] == Player2 and BoardMoves[1] == Player2 and BoardMoves[2] == Player2) or
+        (BoardMoves[3] == Player2 and BoardMoves[4] == Player2 and BoardMoves[5] == Player2) or
+        (BoardMoves[6] == Player2 and BoardMoves[7] == Player2 and BoardMoves[8] == Player2) or
+        (BoardMoves[0] == Player2 and BoardMoves[3] == Player2 and BoardMoves[6] == Player2) or
+        (BoardMoves[1] == Player2 and BoardMoves[4] == Player2 and BoardMoves[7] == Player2) or
+        (BoardMoves[2] == Player2 and BoardMoves[5] == Player2 and BoardMoves[8] == Player2) or
+        (BoardMoves[0] == Player2 and BoardMoves[4] == Player2 and BoardMoves[8] == Player2) or
+        (BoardMoves[2] == Player2 and BoardMoves[4] == Player2 and BoardMoves[6] == Player2)):
+        print(f"Wygrał gracz {Player2}!")
+        TicTacBoad(BoardMoves)
+        ResetOrExitGame(input("Gra skończona! Grasz of nowa (Y/N): "), BoardMoves, Turns)
+        # if one or more values are spaces than continue game
+    elif(BoardMoves[0].isspace() == False and BoardMoves[1].isspace() == False and BoardMoves[2].isspace() == False
+        and BoardMoves[3].isspace() == False and  BoardMoves[4].isspace() == False and BoardMoves[5].isspace() == False
+        and BoardMoves[6].isspace() == False and BoardMoves[7].isspace() == False and BoardMoves[8].isspace() == False):
+        # If all values are different from spaces than display board
+        # and ask user for new game or if he wants to exit the game
+        TicTacBoad(BoardMoves)
+        ResetOrExitGame(input("Gra skończona! Grasz of nowa (Y/N): "), BoardMoves, Turns)
+    else:
+        pass
+    
 
 # This function checks if the position is already taken
 # If the function returns True if position is space
