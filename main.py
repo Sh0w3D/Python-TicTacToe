@@ -1,4 +1,5 @@
 import functions as fn
+import os
 import sys
 
 
@@ -25,6 +26,10 @@ except(UnboundLocalError, ValueError, IndexError):
 print(f"Gracze to: {Player1} oraz {Player2}")
 
 while(True):
-    fn.MainGame(BoardMoves, Turns, Player1, Player2, Player)
-    Turns += 1
+    try:
+        fn.MainGame(BoardMoves, Turns, Player1, Player2, Player)
+        Turns += 1
+    except(KeyboardInterrupt):
+        os.system('cls' if os.name == 'nt' else 'clear')
+        sys.exit("Goodbye!")
     
