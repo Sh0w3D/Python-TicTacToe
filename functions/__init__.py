@@ -5,7 +5,7 @@ import sys
 def checkPlayerNames(Player1, Player2, warunek):
     if(Player1 == Player2):
         os.system('cls' if os.name == 'nt' else 'clear')
-        print("Podane nazwy są te same, podaj nowe")
+        print("Given nick names are the same, please give new ones")
         warunek = False
     else:
         warunek = True
@@ -24,12 +24,12 @@ def MainGame(BoardMoves, Turns, Player1, Player2, Player):
             CurrentMoveRow = int(input("Do ktorego wiersza wstawic wartosc: "))
             CurrentMoveCol = int(input("Do ktorej kolumny wstawic wartosc: "))
         except(UnboundLocalError, ValueError, IndexError):
-            print("Spowodowałeś errora, zasługujesz na wyłączenie programu!")
-            sys.exit("To twoja kara. Bajooo!")
+            print("You've raised an error, now I'll crash!")
+            sys.exit("Remember, it's all thanks to you!")
         Test = CheckIfPosIsSpace(CurrentMoveRow, CurrentMoveCol, BoardMoves, Test)
         if(Test == False):
             os.system('cls' if os.name == 'nt' else 'clear')
-            print("Podana pozycja jest zajęta, podaj nową!")
+            print("Given position is already occupied, give new one!")
         else:
             break
     if(Turns % 2 == 0):
@@ -71,9 +71,9 @@ def CheckWinOrTie(Turns, Player1, Player2, BoardMoves):
         (BoardMoves[2] == Player1 and BoardMoves[5] == Player1 and BoardMoves[8] == Player1) or
         (BoardMoves[0] == Player1 and BoardMoves[4] == Player1 and BoardMoves[8] == Player1) or
         (BoardMoves[2] == Player1 and BoardMoves[4] == Player1 and BoardMoves[6] == Player1)):
-        print(f"Wygrał gracz {Player1}!")
+        print(f"Player {Player1} has won!")
         TicTacBoad(BoardMoves)
-        ResetOrExitGame(input("Gra skończona! Grasz of nowa (Y/N): "), BoardMoves, Turns)
+        ResetOrExitGame(input("Game over! Want to play one more time? (Y/N): "), BoardMoves, Turns)
     #check if expected cords are taken by Player2
     elif((BoardMoves[0] == Player2 and BoardMoves[1] == Player2 and BoardMoves[2] == Player2) or
         (BoardMoves[3] == Player2 and BoardMoves[4] == Player2 and BoardMoves[5] == Player2) or
@@ -83,9 +83,9 @@ def CheckWinOrTie(Turns, Player1, Player2, BoardMoves):
         (BoardMoves[2] == Player2 and BoardMoves[5] == Player2 and BoardMoves[8] == Player2) or
         (BoardMoves[0] == Player2 and BoardMoves[4] == Player2 and BoardMoves[8] == Player2) or
         (BoardMoves[2] == Player2 and BoardMoves[4] == Player2 and BoardMoves[6] == Player2)):
-        print(f"Wygrał gracz {Player2}!")
+        print(f" Player {Player2} has won!")
         TicTacBoad(BoardMoves)
-        ResetOrExitGame(input("Gra skończona! Grasz of nowa (Y/N): "), BoardMoves, Turns)
+        ResetOrExitGame(input("Game over! Want to play one more time? (Y/N): "), BoardMoves, Turns)
         # if one or more values are spaces than continue game
     elif(BoardMoves[0].isspace() == False and BoardMoves[1].isspace() == False and BoardMoves[2].isspace() == False
         and BoardMoves[3].isspace() == False and  BoardMoves[4].isspace() == False and BoardMoves[5].isspace() == False
@@ -93,7 +93,7 @@ def CheckWinOrTie(Turns, Player1, Player2, BoardMoves):
         # If all values are different from spaces than display board
         # and ask user for new game or if he wants to exit the game
         TicTacBoad(BoardMoves)
-        ResetOrExitGame(input("Gra skończona! Grasz of nowa (Y/N): "), BoardMoves, Turns)
+        ResetOrExitGame(input("Game over! Want to play one more time? (Y/N): "), BoardMoves, Turns)
     else:
         pass
     
@@ -121,13 +121,13 @@ def CheckIfPosIsSpace(CurrentMoveRow, CurrentMoveCol, BoardMoves, Test):
     elif(CurrentMoveRow == 3 and CurrentMoveCol == 3):
         Test = True if BoardMoves[8].isspace() else False
     elif(CurrentMoveRow > 3 or CurrentMoveCol > 3):
-        print("\nJedna lub obie wartości są większe niż powinne, podaj nowe!")
+        print("\nOne or more given values are higher than expected, give new ones!")
         Test = False
     elif(CurrentMoveRow < 1 or CurrentMoveCol < 1):
-        print("\nJedna lub obie wartości są mniejsze niż powinne, podaj nowe!")
+        print("\nOne or more given values are lower than expected, give new ones!")
         Test = False
     else:
-        print("\nWystąpił błąd w funkcji CheckIfPosIsSpace")
+        print("\nThere is some kind of mistake in CheckIfPosIsSpace")
         Test = False
     
     return Test
@@ -168,4 +168,4 @@ def ResetOrExitGame(AskNewGame, BoardMoves, Turns):
             return Turns
         else:
             os.system('cls' if os.name == 'nt' else 'clear')
-            sys.exit("\nBajo Jajo")
+            sys.exit("\nBye Bye!")
