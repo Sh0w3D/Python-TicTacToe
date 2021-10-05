@@ -12,4 +12,4 @@ I'll add to this code:
   5c. Bot vs Bot
 6. Thinking bots
 
-"test.py" file created for simple function testing and does not contain real tests!
+"test.py" is a file created for simple function testing and does not contain real tests!
