@@ -11,3 +11,7 @@ I'll add to this code:
   5b. User vs Bot
   5c. Bot vs Bot
 6. Thinking bots
+
+
+
+!Test file created for simple function testing and does not contain real tests
