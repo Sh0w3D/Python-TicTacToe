@@ -1,4 +1,5 @@
 import os
+import random as rd
 import sys
 
 
@@ -43,6 +44,13 @@ def MainGame(BoardMoves, Turns, Player1, Player2, Player):
         CheckWinOrTie(Turns, Player1, Player2, BoardMoves)
         print(BoardMoves)
     os.system('cls' if os.name == 'nt' else 'clear')
+
+
+def chooseGameType():
+    pass
+
+def BotGame():
+    pass
 
 
 
