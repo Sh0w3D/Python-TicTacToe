@@ -4,7 +4,7 @@ This code will be updated and will have more functions.
 I'll add to this code:
 1. Winner checking > done✔ on 27.09.2021,
 2. Tie checking > done✔ on 27.09.2021,
-3. Database connection,
+3. Database connection > done✔ on 06.10.2021,
 4. User win/lose/tie count information display - from database,
 5. Game types:
   5a. User vs User > done✔,
