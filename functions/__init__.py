@@ -1,9 +1,12 @@
+import datetime as dt
 import os
-#import pymysql
+import pymysql
 import random as rd
 import sys
 
 
+# Debug line
+# print(f"{Turns} > Turns | {Player1} > Player1 | {Player2} > Player2")
 
 def checkPlayerNames(Player1, Player2, warunek):
     if(Player1 == Player2):
@@ -22,6 +25,7 @@ def MainGame(BoardMoves, Turns, Player1, Player2, Player, GameType):
     while(Test == False):
         # display board and ask user for cords to input symbol
         TicTacBoad(BoardMoves)
+        print(f"{Turns} > Turns | {Player1} > Player1 | {Player2} > Player2")
         try:
             # check what gametype it is right now and if it is bot move
             if(GameType == 2 and Turns % 2 == 1):
@@ -97,10 +101,11 @@ def CheckWinOrTie(Turns, Player1, Player2, BoardMoves):
         (BoardMoves[2] == Player1 and BoardMoves[5] == Player1 and BoardMoves[8] == Player1) or
         (BoardMoves[0] == Player1 and BoardMoves[4] == Player1 and BoardMoves[8] == Player1) or
         (BoardMoves[2] == Player1 and BoardMoves[4] == Player1 and BoardMoves[6] == Player1)):
+        addToDatabase(Player1, Player2, Player1)
         print(f"Player {Player1} has won!")
         TicTacBoad(BoardMoves)
         ResetOrExitGame(input("Game over! Want to play one more time? (Y/N): "), BoardMoves, Turns)
-    #check if expected cords are taken by Player2
+    # Check if expected cords are taken by Player2
     elif((BoardMoves[0] == Player2 and BoardMoves[1] == Player2 and BoardMoves[2] == Player2) or
         (BoardMoves[3] == Player2 and BoardMoves[4] == Player2 and BoardMoves[5] == Player2) or
         (BoardMoves[6] == Player2 and BoardMoves[7] == Player2 and BoardMoves[8] == Player2) or
@@ -109,21 +114,41 @@ def CheckWinOrTie(Turns, Player1, Player2, BoardMoves):
         (BoardMoves[2] == Player2 and BoardMoves[5] == Player2 and BoardMoves[8] == Player2) or
         (BoardMoves[0] == Player2 and BoardMoves[4] == Player2 and BoardMoves[8] == Player2) or
         (BoardMoves[2] == Player2 and BoardMoves[4] == Player2 and BoardMoves[6] == Player2)):
+        addToDatabase(Player1, Player2, Player2)
         print(f" Player {Player2} has won!")
         TicTacBoad(BoardMoves)
         ResetOrExitGame(input("Game over! Want to play one more time? (Y/N): "), BoardMoves, Turns)
-        # if one or more values are spaces than continue game
-    elif(BoardMoves[0].isspace() == False and BoardMoves[1].isspace() == False and BoardMoves[2].isspace() == False
-        and BoardMoves[3].isspace() == False and  BoardMoves[4].isspace() == False and BoardMoves[5].isspace() == False
-        and BoardMoves[6].isspace() == False and BoardMoves[7].isspace() == False and BoardMoves[8].isspace() == False):
-        # If all values are different from spaces than display board
-        # and ask user for new game or if he wants to exit the game
-        TicTacBoad(BoardMoves)
-        ResetOrExitGame(input("Game over! Want to play one more time? (Y/N): "), BoardMoves, Turns)
+    # If all fields are taken and there is no win there we have tie
+    elif((BoardMoves[0] == Player1 or BoardMoves[0] == Player2) and
+        (BoardMoves[1] == Player1 or BoardMoves[1] == Player2) and
+        (BoardMoves[2] == Player1 or BoardMoves[2] == Player2) and
+        (BoardMoves[3] == Player1 or BoardMoves[3] == Player2) and
+        (BoardMoves[4] == Player1 or BoardMoves[4] == Player2) and
+        (BoardMoves[5] == Player1 or BoardMoves[5] == Player2) and
+        (BoardMoves[6] == Player1 or BoardMoves[6] == Player2) and
+        (BoardMoves[7] == Player1 or BoardMoves[7] == Player2) and 
+        (BoardMoves[8] == Player1 or BoardMoves[8] == Player2)):
+            addToDatabase(Player1, Player2, "Tie")
+            TicTacBoad(BoardMoves)
+            print("Thats a Tie!")
+            ResetOrExitGame(input("Game over! Want to play one more time? (Y/N): "), BoardMoves, Turns)
     else:
-        TicTacBoad(BoardMoves)
-        print("Thats a Tie!")
-        ResetOrExitGame(input("Game over! Want to play one more time? (Y/N): "), BoardMoves, Turns)
+        pass
+
+
+# This function allows game to add game results to database
+def addToDatabase(Player1, Player2, Result):
+    db = pymysql.connect(host="localhost", user="root", password="", db="tictactoe")
+    cursor = db.cursor()
+    now = dt.datetime.now()
+    Data = now.strftime("%Y-%m-%d %H:%M:%S")
+    try:
+        cursor.execute(f"INSERT INTO gameresults (GameDate, Player1, Player2, WinnerTie) VALUES ('{Data}', '{Player1}', '{Player2}', '{Result}')")
+        db.commit()
+    except pymysql.Error as e:
+        print("Error: %d: %s" %(e.args[0], e.args[1]))
+    db.close()
+
     
 
 # This function checks if the position is already taken

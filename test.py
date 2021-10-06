@@ -5,17 +5,6 @@ import pymysql
 
 db = pymysql.connect(host="localhost", user="root", password="", db="tictactoe")
 cursor = db.cursor()
-Data = "2002-11-20 21:37:00"
-Gracz1 = "Test"
-Gracz2 = "Test2"
-Result = "Tie"
-
-try:
-    cursor.execute(f"INSERT INTO gameresults (GameDate, Player1, Player2, WinnerTie) VALUES ('{Data}', '{Gracz1}', '{Gracz2}', '{Result}')")
-    db.commit()
-except pymysql.Error as e:
-    print("Error: %d: %s" %(e.args[0], e.args[1]))
-
 try:
     cursor.execute("SELECT * FROM gameresults")
     data = cursor.fetchall()
