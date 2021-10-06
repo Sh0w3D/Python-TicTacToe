@@ -9,5 +9,6 @@ I'll add to this code:
 5. Game types:
   5a. User vs User
   5b. User vs Bot
-  5c. Bot vs Bot
 6. Thinking bots
+
+"test.py" is a file created for simple function testing and does not contain real tests!
