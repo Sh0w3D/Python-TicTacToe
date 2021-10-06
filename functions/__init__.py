@@ -1,6 +1,8 @@
 import os
+#import pymysql
 import random as rd
 import sys
+
 
 
 def checkPlayerNames(Player1, Player2, warunek):
@@ -10,20 +12,24 @@ def checkPlayerNames(Player1, Player2, warunek):
         warunek = False
     else:
         warunek = True
-    
     return warunek
 
 
 # Main game function
-def MainGame(BoardMoves, Turns, Player1, Player2, Player):
+def MainGame(BoardMoves, Turns, Player1, Player2, Player, GameType):
     # Check if the cords are taken
     Test = False
     while(Test == False):
         # display board and ask user for cords to input symbol
         TicTacBoad(BoardMoves)
         try:
-            CurrentMoveRow = int(input("Do ktorego wiersza wstawic wartosc: "))
-            CurrentMoveCol = int(input("Do ktorej kolumny wstawic wartosc: "))
+            # check what gametype it is right now and if it is bot move
+            if(GameType == 2 and Turns % 2 == 1):
+                CurrentMoveRow = rd.randint(1, 3)
+                CurrentMoveCol = rd.randint(1, 3)
+            else:
+                CurrentMoveRow = int(input("Give row position number: "))
+                CurrentMoveCol = int(input("Give column position number: "))
         except(UnboundLocalError, ValueError, IndexError):
             print("You've raised an error, now I'll crash!")
             sys.exit("Remember, it's all thanks to you!")
@@ -47,11 +53,23 @@ def MainGame(BoardMoves, Turns, Player1, Player2, Player):
 
 
 def chooseGameType():
-    pass
-
-def BotGame():
-    pass
-
+    print("""List of available gametypes:
+        1. Player vs Player,
+        2. Player vs Bot""")
+    try:
+        Warunek = False
+        GameType = int(input("Choose game type: "))
+        while(Warunek == False):
+            if(GameType == 1 or GameType == 2):
+                Warunek = True
+                return GameType
+            else:
+                Warunek = False
+                os.system('cls' if os.name == 'nt' else 'clear')
+                GameType = int(input("Wrong number given, choose one more time: "))
+    except(UnboundLocalError, ValueError, IndexError):
+        print("You've raised an error, now I'll crash!")
+        sys.exit("Remember, it's all thanks to you!")
 
 
 # This function prints Board with array slots
@@ -103,7 +121,9 @@ def CheckWinOrTie(Turns, Player1, Player2, BoardMoves):
         TicTacBoad(BoardMoves)
         ResetOrExitGame(input("Game over! Want to play one more time? (Y/N): "), BoardMoves, Turns)
     else:
-        pass
+        TicTacBoad(BoardMoves)
+        print("Thats a Tie!")
+        ResetOrExitGame(input("Game over! Want to play one more time? (Y/N): "), BoardMoves, Turns)
     
 
 # This function checks if the position is already taken
