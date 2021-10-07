@@ -58,7 +58,7 @@ def MainGame(BoardMoves, Turns, Player1, Player2, Player, GameType):
 
 def chooseGameType():
     print("""List of available gametypes:
-        1. Player vs Player,
+        1. Player vs Player
         2. Player vs Bot""")
     try:
         Warunek = False
